@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { Alert } from "react-native";
 import { getCurrentUser } from "../lib/appwrite";
 
 const GlobalContext = createContext();
