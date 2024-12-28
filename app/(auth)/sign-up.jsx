@@ -19,10 +19,21 @@ const SignUp = () => {
   });
 
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (!form.email || !form.password || !form.username) {
       Alert.alert("Error", "Please fill in all fields");
+      return;
     }
-
+    
+    if (!form.email.includes('@')) {
+      Alert.alert("Error", "Please enter a valid email");
+      return;
+    }
+  
+    if (form.password.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters");
+      return;
+    }
+    
     setSubmitting(true);
     try {
       const result = await createUser(form.email, form.password, form.username);

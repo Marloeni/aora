@@ -11,22 +11,24 @@ const GlobalProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCurrentUser()
-      .then((res) => {
-        if (res) {
-          setIsLogged(true);
-          setUser(res);
-        } else {
-          setIsLogged(false);
-          setUser(null);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
+    const initAuth = async () => {
+      try {
+        const res = await getCurrentUser();
+        setIsLogged(!!res);
+        setUser(res);
+      } catch (error) {
+        setIsLogged(false);
+        setUser(null);
+        Alert.alert(
+          "Authentication Error",
+          "Failed to retrieve user session. Please login again."
+        );
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    initAuth();
   }, []);
 
   return (
